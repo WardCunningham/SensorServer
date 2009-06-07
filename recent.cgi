@@ -19,10 +19,9 @@ for (<*>) {
 	my @samples = `tail -$tail '$_/history.txt'`;
 	my $samples;
 	for (@samples) {
-		next unless /(\d+)\t(\d+\.\d)/;
+		next unless /(\d+)\t(\d+\.\d+)/;
 		next unless $1 >= $first;
-		my $temp = (((($2*10)+4) % 9)*0.0125) + $2 - $bias;
-		$samples .= "[${1}000,$temp], ";
+		$samples .= "[${1}000,$2], ";
 	}
 	$data .= $samples;
 	$data .= "] }, ";
