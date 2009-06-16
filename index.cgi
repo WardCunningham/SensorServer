@@ -15,7 +15,7 @@ chdir "results";
 
 for (<*>) {
 	my $info = `cat '$_/info.html'` if -e "$_/info.html";;
-	my $temp = $1 if `tail -1 '$_/history.txt'` =~ /\b(\d+\.\d+)\b/;
+	my $temp = sprintf("%.1f",$1) if `tail -1 '$_/history.txt'` =~ /\t([\d.]+)\b/;
 	print <<;
 		<tr><td>
 		<tr bgcolor=#eeeeee>
