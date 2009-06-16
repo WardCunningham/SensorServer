@@ -6,9 +6,12 @@
 use strict;
 
 my $time = time;
-my @lines = `curl -s 'http://98.232.243.25:8082/'`;
+my @lines = `curl -s 'http://98.232.243.25:8082/g'`;
 for (@lines) {
 	temp($1) if /^18b20\t(.*)/;
+	pin(0,'a',$1) if /^analog\t(.*)/;
+	pin(1,'a',$1) if /^analog\t(.*)/;
+	pin(3,'b',$1) if /^bynase\t(.*)/;
 }
 
 sub temp {
@@ -20,6 +23,14 @@ sub temp {
 		my $value = eval `cat results/$key/cal.pl`;
 		record ($key, int($value*100+.5)/100);
 	}
+}
+
+sub pin {
+	my ($pin, $code, $line) = @_;
+	my @fields = split /\s+/, $line;
+	$_ = @fields[$pin];
+	my $value = eval `cat results/$code$pin/cal.pl`;
+	record ("$code$pin", sprintf("%5.3f", $value));
 }
 
 sub record {
