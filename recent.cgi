@@ -13,13 +13,11 @@ my $data;
 for (<*>) {
 	my $label = `head -1 '$_/info.txt'` || $_;
 	$label =~ s/\n//g;
-	my $bias = `grep 'bias:' '$_/info.txt'` || "bias: 0.0";
-	$bias =~ s/bias://;
 	$data .= "{ id: '$_', label: '<a href=\"raw.cgi?code=$_&hours=0.5\">$label</a>', data: [";
 	my @samples = `tail -$tail '$_/history.txt'`;
 	my $samples;
 	for (@samples) {
-		next unless /(\d+)\t(\d+\.\d+)/;
+		next unless /(\d+)\t([\d.]+)/;
 		next unless $1 >= $first;
 		$samples .= "[${1}000,$2], ";
 	}
