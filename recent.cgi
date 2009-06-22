@@ -13,7 +13,8 @@ my $data;
 for (<*>) {
 	my $label = `head -1 '$_/info.txt'` || $_;
 	$label =~ s/\n//g;
-	$data .= "{ id: '$_', label: '<a href=\"raw.cgi?code=$_&hours=0.5\">$label</a>', data: [";
+	my $yaxis = /^(a|b)/ ? 2 : 1;
+	$data .= "{ id: '$_', yaxis: $yaxis, label: '<a href=\"raw.cgi?code=$_&hours=0.5\">$label</a>', data: [";
 	my @samples = `tail -$tail '$_/history.txt'`;
 	my $samples;
 	for (@samples) {
