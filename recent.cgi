@@ -11,7 +11,7 @@ my $first = time - $hours*60*60;
 my $tail = $hours * 12;
 my $data;
 for (<*>) {
-	my $label = `head -1 '$_/info.txt'` || $_;
+	my $label = `cat $_/name.txt` || $_;
 	$label =~ s/\n//g;
 	my $yaxis = /^(a|b)/ ? 2 : 1;
 	$data .= "{ id: '$_', yaxis: $yaxis, label: '<a href=\"raw.cgi?code=$_&hours=0.5\">$label</a>', data: [";
