@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # run with crontab:
-#	*/5 * * * * (cd public_html/arduino/TempServer; ./sample.pl)
+#	*/5 * * * * (cd public_html/arduino/SampleServer; ./sample.pl)
 
 use strict;
 
