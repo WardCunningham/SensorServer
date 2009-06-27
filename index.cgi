@@ -3,13 +3,15 @@ use strict;
 print "Content-type: text/html\n\n";
 
 
-print <<;
+print << ;
+	<head>
+	<meta name="viewport" content="width=640;" />
+	</head>
 	<body style="margin:40px;">
 	<a href="about.html">about</a> |
 	<a href="recent.cgi">plot</a> |
 	<a href="results">data</a>
-	<table cellpadding=10 cellspacing=0 width=600>
-
+	<table cellpadding=10 cellspacing=0 width=560>
 
 chdir "results";
 
@@ -20,9 +22,12 @@ for (<*>) {
 	print <<;
 		<tr><td>
 		<tr bgcolor=#eeeeee>
-		<td align=center>&nbsp; <a href="raw.cgi?code=$_&hours=0.5&smooth=0.9"><font size=24>$temp&deg;</font></a><br>$name
+		<td align=center>&nbsp;
+			<a href="raw.cgi?code=$_&hours=0.5&smooth=0.9"><font size=24>$temp&deg;</font></a>
+			<br>$name
+			<br><font color=gray>$_</font>
 		<td><a href="results/$_/location.jpg"><img src="results/$_/thumb.jpg"></a>
-		<td valign=top>$info<br><font color=gray>$_</font>
+		<td>$info
 
 }
 
