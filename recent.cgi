@@ -14,7 +14,6 @@ for (<*>) {
 	my $label = `cat $_/name.txt` || $_;
 	$label =~ s/\n//g;
 	my $yaxis = /^(a|b)/ ? 2 : 1;
-	$data .= "{ id: '$_', yaxis: $yaxis, label: '<a href=\"raw.cgi?code=$_&hours=0.5\">$label</a>', data: [";
 	my @samples = `tail -$tail '$_/history.txt'`;
 	my $samples;
 	for (@samples) {
@@ -22,8 +21,8 @@ for (<*>) {
 		next unless $1 >= $first;
 		$samples .= "[${1}000,$2], ";
 	}
-	$data .= $samples;
-	$data .= "] }, ";
+	next unless $samples;
+	$data .= "{ id: '$_', yaxis: $yaxis, label: '<a href=\"raw.cgi?code=$_&hours=0.5\">$label</a>', data: [$samples] },\n";
 }
 
 print <<EOF ;
