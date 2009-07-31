@@ -21,6 +21,8 @@ sub temp {
 	for my $key (keys %fields) {
 		$_ = $fields{$key};
 		my $value = eval `cat results/$key/cal.pl`;
+		next if $value > 150;
+		next if $value < -50;
 		record ($key, int($value*100+.5)/100);
 	}
 }
