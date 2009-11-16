@@ -11,6 +11,7 @@ for (@lines) {
 	temp($1) if /^18b20\t(.*)/;
 	pin(0,'a',$1) if /^analog\t(.*)/;
 	pin(1,'a',$1) if /^analog\t(.*)/;
+	pin(2,'a',$1) if /^analog\t(.*)/;
 	pin(3,'b',$1) if /^bynase\t(.*)/;
 }
 
@@ -28,6 +29,7 @@ sub temp {
 }
 
 sub pin {
+	local ($_);
 	my ($pin, $code, $line) = @_;
 	my @fields = split /\s+/, $line;
 	$_ = @fields[$pin];
