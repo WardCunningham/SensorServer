@@ -1,5 +1,69 @@
-<h1>About SensorServer</h1>
+<head>
+	<meta name="viewport" content="width=640;" />
+</head>
+<body bgcolor=lightgray>
+  <br>
+  <div style="width:600px; background-color:white; padding:20px; margin:auto">
 
-SensorServer is a suite of linux scripts that collect sensor data over
-the internet and display it as digital readouts and plots. It includes
-a crontab job that polls Arduinos running a script also called SensorServer.
+    <h1>About SensorServer</h1>
+
+    <p>SensorServer is a suite of linux scripts that collect sensor data over
+    the internet and display it as digital readouts and plots. It includes
+    a cron job that polls Arduinos running a script also called SensorServer.</p>
+
+    <img src=SensorServer.png>
+
+    <p>The Arduino SensorServer serves http requests to the internet. You can
+    watch live data from this small computer <a http=http://98.232.243.25:8082/>live</a>
+    with no other intervening computers.</p>
+
+    <p>The Arduino SensorServer collects sensor signals polling devices at a rate of
+    about once a second. It supports three kinds of signals:</p>
+
+    <ul>
+      <li>Analog - Converted to digital by the Arduino.</li>
+      <li><a href=http://c2.com/cybords/wiki.cgi?BynaseProtocol>Bynase</a> - Detected by software in SensorServer.</li>
+      <li><a href=http://en.wikipedia.org/wiki/1-Wire>1-Wire</a> - Read using the Arduino OneWire Library.</li>
+    </ul>
+
+    <p>SensorServer reports the most recent sample of each signal in response to requests from the internet.
+    Responses are formatted as json, a sample of which is shown here:</p>
+
+    <pre>
+      {
+      	"a2010":	980,
+      	"a2011":	936,
+      	"a2012":	52,
+      	"a2013":	0,
+      	"a2014":	0,
+      	"a2015":	0,
+      	"b2012":	0,
+      	"b2013":	0,
+      	"b2014":	0,
+      	"b2015":	0,
+      	"b2016":	0,
+      	"b2017":	0,
+      	"c19808":	283,
+      	"c19356":	618,
+      	"c12234":	306,
+      	"c63411":	85,
+      	"c54551":	243,
+      	"t0":	51736306,
+      	"t1":	632,
+      	"r0":	361,
+      	"r1":	834,
+      }
+
+    </pre>
+
+    <p>The various signals are given codes, a, b, c, for analog, bynase and 1-wire respectively. The numeric part of the code is a combination of the server's ip address and the input pin number for analog and bynase. For 1-wire the code is extracted from an id unique to each 1-wire device.</p>
+    <p>The report includes aditional times and counts:</p>
+    <ul>
+      <li>t0 - the time the server has been running in milliseconds.</li>
+      <li>t1 - the time since the last signal sample in milliseconds.</li>
+      <li>r0 - the number of internet requests served.</li>
+      <li>r1 - the number of crc errors talking to 1-wire devices.</li>
+    </ul>
+    <p>The server processes internet requests one at a time, queuing simultainous requests to be processes at the earliest opportunity.</p>
+  </div>
+</body>
