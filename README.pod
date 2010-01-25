@@ -4,13 +4,17 @@ The server is organized as a web site, SensorServer, with the Arduino code in an
 identially named subdirectory of this site. On a mac, this can be downloaded as follows:
 
 =item * Open the Terminal program
+
 =item * cd Sites
+
 =item * git clone I<clone address from above>
+
 =item * Enable Web Sharing in the Control Panel
 
 Test that this site is accessible by fetching some pages from your brower:
 
 =item * http://localhost/~I<your-login>/ -- should include SensorServer
+
 =item * http://localhost/~I<your-login>/SensorServer/about.html
 
 =head1 Installing the Arduino
@@ -21,14 +25,21 @@ You will want to use the Arduino development environment to
 program the device.
 
 =item * Install Arduino IDE from www.arduino.cc
+
 =item * Install the OneWire library in /hardware/library
+
 =item * Use File>Open to open SensorServer/SensorServer/SensorServer.pde
+
 =item * Edit the mac address to be unique on your network
+
 =item * Edit the ip address to be unique your network (e.g. 10.0.0.201 in this example)
+
 =item * Download the compiled program into your Arduino
 
 Test your work so far by fetching the tsv and json pages:
+
 =item * http://10.0.0.201/g -- all data in tab-separated fields
+
 =item * http://10.0.0.201/j -- all data and some stats in json hash
 
 If you are behind a firewall, open a port to your arduino. 
@@ -39,6 +50,7 @@ Test that you can access the json page through your router.
 You will want to run the sampling script on an always-on server.
 
 =item * Edit the sample.pl script to fetch from your Arduino
+
 =item * Create a C<results> directory in the same directory as the script
 
 Test the sample.pl script by running it from the command line. 
@@ -51,14 +63,16 @@ It will create subdirectories in results for devices discovered by your Arduino.
 For each device in the results directory add the following files:
 
 =item * name.txt -- One word name for the sensor.
+
 =item * info.html -- Paragraph describing the location and purpose of the sensor.
+
 =item * location.jpg -- Photograph of the sensor in its current location.
 
 The script, mkthumb.sh, will make low resolution thumbnails of location pictures.
 Run it whenever adding new images.
 
 Test that the website is configured properly and collecting data by viewing
-the main page, index.cgi. 
+the main page, c<index.cgi>. 
 
 Consider editing about.html to refer to your Arduino for live data.
 
