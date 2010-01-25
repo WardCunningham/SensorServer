@@ -1,3 +1,6 @@
+// Copyright (c) 2010, Ward Cunningham
+// Released under GPL v2
+
 #include <Ethernet.h>
 #include <OneWire.h>
 #define num(array) (sizeof(array)/sizeof(array[0]))
