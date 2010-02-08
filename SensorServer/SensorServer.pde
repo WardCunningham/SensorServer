@@ -191,7 +191,10 @@ void finishTempSample() {
   if (ch >= 0) {                // if we've discovered a devise and started a conversion
     ds.reset();
     ds.select(data);
+    pinMode(9,OUTPUT);          // Scope Sync
+    digitalWrite(9,HIGH);
     ds.write(0xBE);             // Read Scratchpad
+    digitalWrite(9,LOW);
     for (int i = 0; i < 9; i++) {
       data[i] = ds.read();
     }
