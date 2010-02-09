@@ -23,7 +23,7 @@ for (<*>) {
 		next unless /(\d+)\t([\d.]+)/;
 		next unless $1 >= $first;
 		$sum += $2;
-		next if ($count++) % $decimate;
+		next if (++$count) % $decimate;
 		my $avg = $sum/$decimate;
 		$samples .= "[${1}000,$avg], ";
 		$sum = 0;
