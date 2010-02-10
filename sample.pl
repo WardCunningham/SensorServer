@@ -12,6 +12,7 @@ for (@lines) {
 	pin(0,'a',$1) if /^analog\t(.*)/;
 	pin(1,'a',$1) if /^analog\t(.*)/;
 	pin(2,'a',$1) if /^analog\t(.*)/;
+	pin(3,'a',$1) if /^analog\t(.*)/;
 	pin(3,'b',$1) if /^bynase\t(.*)/;
 }
 

@@ -7,7 +7,7 @@ identially named subdirectory of this site. On a mac, this can be downloaded as 
 
 =item * cd Sites
 
-=item * git clone I<clone address from above>
+=item * git clone I<clone address from GitHub>
 
 =item * Enable Web Sharing in the Control Panel
 
