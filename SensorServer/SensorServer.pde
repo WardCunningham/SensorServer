@@ -167,10 +167,13 @@ unsigned int id;
 int ch = -1;
 
 void tempSample() {
-  if (ch >= 0) {
+  while(1) {
+    startTempSample();
+    if (ch < 0) break;
     finishTempSample();
   }
-  startTempSample();
+  ds.write(0xCC,1);               // skip ROM, do simultaneous conversions
+  ds.write(0x44,1);               // start conversion, with parasite power on at the end
 }
 
 void startTempSample() {
@@ -187,9 +190,9 @@ void startTempSample() {
       Serial.print(id);
       Serial.print(" ");
       ch = channel (id);
-      ds.reset();
-      ds.select(data);
-      ds.write(0x44,1);         // start conversion, with parasite power on at the end
+ //     ds.reset();
+ //     ds.select(data);
+ //     ds.write(0x44,1);         // start conversion, with parasite power on at the end
     } else {
       crc_errs++;
       Serial.print("crc   ");
