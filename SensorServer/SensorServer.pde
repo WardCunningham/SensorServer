@@ -159,10 +159,13 @@ unsigned int id;
 int ch = -1;
 
 void tempSample() {
-  if (ch >= 0) {
+  while(1) {
+    startTempSample();
+    if (ch < 0) break;
     finishTempSample();
   }
-  startTempSample();
+  ds.write(0xCC,1);               // skip ROM, do simultaneous conversions
+  ds.write(0x44,1);               // start conversion, with parasite power on at the end
 }
 
 void startTempSample() {
@@ -171,18 +174,20 @@ void startTempSample() {
   }
   if (!ds.search(data)) {
     ch = -1;
+    Serial.println("");
   }
   else {
     if (OneWire::crc8(data, 7) == data[7] && 0x28 == data[0]) {
       id = data[2]*256u+data[1];
+      Serial.print(id);
+      Serial.print(" ");
       ch = channel (id);
-      ds.reset();
-      ds.select(data);
-      ds.write(0x44,1);         // start conversion, with parasite power on at the end
+ //     ds.reset();
+ //     ds.select(data);
+ //     ds.write(0x44,1);         // start conversion, with parasite power on at the end
     } else {
       crc_errs++;
-      Serial.print(id);
-      Serial.println(": crc addr err");
+      Serial.print("crc   ");
     }
   }
 }
@@ -200,11 +205,12 @@ void finishTempSample() {
     }
     if (OneWire::crc8(data, 8) == data[8]) {
       temp[ch].data = data[1]*256+data[0];
+      Serial.print(temp[ch].data);
+      Serial.print(" ");
       temp[ch].code = id;      // don't set this too early or we could report bad data
     } else {
       crc_errs++;
-      Serial.print(id);
-      Serial.println(": crc data err");
+      Serial.print("crc ");
     }
   }
 }
