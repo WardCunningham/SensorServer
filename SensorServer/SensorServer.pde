@@ -95,11 +95,19 @@ void jsonReport() {
 
   client.println("}");
 }
+void script(char* script) {
+  client.print("<script src=http://c2.com/ward/arduino/SensorServer/js/");
+  client.print(script);
+  client.println("></script>");
+}
 
 void flotReport () {
     client.println("HTTP/1.1 200 OK\nContent-Type: text/html\n\n<html><head>");
     client.println("<meta name=viewport content=\"width=420;\" />");
-    client.println("<script src=http://c2.com/ward/arduino/js/ss.js></script>");
+    script("jquery.js");
+    script("jquery.timers.js");
+    script("jquery.flot.js");
+    script("ss.js");
     client.println("</head><body>");
     client.println("<h1>Live SensorServer Data</h1>");
     client.println("<div id=plot style=\"width:400px;height:300px;\"></div>");
