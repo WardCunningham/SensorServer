@@ -22,7 +22,8 @@ $(document).ready(function(){
 			$.plot($("#plot"), plot_data);
 			$("#stat").html(
 				"<br>elapsed time: " + element.t0/1000 +
-				"<br>requests serverd: " + element.r0);
+				"<br>requests served: " + element.r0 +
+				"<br>1-wire crc errors: " + element.r1);
 		});
 	});
 });
