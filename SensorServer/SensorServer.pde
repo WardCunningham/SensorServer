@@ -172,6 +172,7 @@ void tempSample() {
     if (ch < 0) break;
     finishTempSample();
   }
+  ds.reset();
   ds.write(0xCC,1);               // skip ROM, do simultaneous conversions
   ds.write(0x44,1);               // start conversion, with parasite power on at the end
 }
