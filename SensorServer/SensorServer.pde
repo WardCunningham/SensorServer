@@ -13,7 +13,7 @@ Client client(255);
 OneWire ds(8);  // data pin
 
 int analog[6];
-int bynase[8];
+int bynase[6];
 
 struct Temp {
   unsigned int code;
@@ -167,11 +167,14 @@ unsigned int id;
 int ch = -1;
 
 void tempSample() {
+  pinMode(7,OUTPUT);
+  digitalWrite(7,HIGH);
   while(1) {
     startTempSample();
     if (ch < 0) break;
     finishTempSample();
   }
+  digitalWrite(7,LOW);
   ds.reset();
   ds.write(0xCC,1);               // skip ROM, do simultaneous conversions
   ds.write(0x44,1);               // start conversion, with parasite power on at the end
