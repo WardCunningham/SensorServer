@@ -6,41 +6,30 @@
 use strict;
 
 my $time = time;
-my @lines = `curl -s 'http://98.232.243.25:8082/g'`;
+my @lines = `curl -s 'http://98.232.243.25:8082/j'`;
+my $results = 'results';
+
 for (@lines) {
-	temp($1) if /^18b20\t(.*)/;
-	pin(0,'a',$1) if /^analog\t(.*)/;
-	pin(1,'a',$1) if /^analog\t(.*)/;
-	pin(2,'a',$1) if /^analog\t(.*)/;
-	pin(3,'a',$1) if /^analog\t(.*)/;
-	pin(3,'b',$1) if /^bynase\t(.*)/;
-}
-
-sub temp {
-	my ($line) = @_;
-	my @fields = split /\s+/, $line;
-	my %fields = @fields;
-	for my $key (keys %fields) {
-		$_ = $fields{$key};
-		my $value = eval `cat results/$key/cal.pl`;
-		next if $value > 150;
-		next if $value < -50;
-		record ($key, int($value*100+.5)/100);
-	}
-}
-
-sub pin {
-	local ($_);
-	my ($pin, $code, $line) = @_;
-	my @fields = split /\s+/, $line;
-	$_ = @fields[$pin];
-	my $value = eval `cat results/$code$pin/cal.pl`;
-	record ("$code$pin", sprintf("%5.3f", $value));
+	next unless /"([a-c]\d+)":\s*(\d+),/;
+	record($1, $2);
 }
 
 sub record {
 	my ($code, $sample) = @_;
-	mkdir "results/$code" unless -e "results/$code";
-	open H, ">>results/$code/history.txt";
-	print H "$time\t$sample\n";
+	create("$results/$code") unless -e "$results/$code";
+	$_ = $sample;
+	my $value = eval `cat $results/$code/cal.pl`;
+	my $round = sprintf("%5.3f", $value);
+	open H, ">>$results/$code/history.txt";
+	print H "$time\t$round\n";
+}
+
+sub create {
+	my ($dir) = @_;
+	mkdir $dir;
+	`	cd $dir;
+		echo '\$_ * 1 + 0' > cal.pl
+		echo '$dir' > name.txt
+		date > info.html
+	`
 }
