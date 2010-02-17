@@ -19,6 +19,7 @@ sub record {
 	create("$results/$code") unless -e "$results/$code";
 	$_ = $sample;
 	my $value = eval `cat $results/$code/cal.pl`;
+	return if $code =~ /^c/ && ($value > 150 || $value < -50);
 	my $round = sprintf("%5.3f", $value);
 	open H, ">>$results/$code/history.txt";
 	print H "$time\t$round\n";
