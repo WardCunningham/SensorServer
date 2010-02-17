@@ -23,16 +23,16 @@ Test that this site is accessible by fetching some pages from your brower:
 
 =item * http://localhost/~I<your-login>/SensorServer/about.html
 
-=head1 Installing the Arduino
-
 =back
+
+=head1 Installing the Arduino
 
 The SensorServer runs on a USB arduino with the Ethernet shield.
 
 You will want to use the Arduino development environment to
 program the device.
 
-= over 4
+=over 4
 
 =item * Install Arduino IDE from www.arduino.cc
 
