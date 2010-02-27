@@ -27,7 +27,7 @@ for (<*>) {
 		<tr><td>
 		<tr bgcolor=#eeeeee>
 		<td align=center>&nbsp;
-			<a href="raw.cgi?code=$_&hours=0.5&smooth=0.9"><font size=24>$temp&deg;</font></a>
+			<a href="recent.cgi?code=$_"><font size=24>$temp&deg;</font></a>
 			$name
 			<br><font color=gray>$_ $age</font>
 		<td><a href="results/$_/location.jpg"><img src="results/$_/thumb.jpg"></a>
