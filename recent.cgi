@@ -25,9 +25,7 @@ sub transform {
 	$label =~ s/\n//g;
 	my $yaxis = /^(a|b)/ ? 2 : 1;
 	my @samples = `tail -$tail '$_/history.txt'`;
-	my $samples;
-	my $count = 0;
-	my $sum = 0;
+	my ($samples, $count, $sum) = ('', 0, 0);
 	for (@samples) {
 		next unless /(\d+)\t([\d.]+)/;
 		next unless $1 >= $first;
@@ -38,7 +36,12 @@ sub transform {
 		$sum = 0;
 	}
 	next unless $samples;
-	$data .= "{ id: '$_', yaxis: $yaxis, label: '<a href=\"recent.cgi?code=$_&hours=$hours\">$label</a>', data: [$samples] },\n";
+	$data .= "{
+		id: '$_',
+		yaxis: $yaxis,
+		label: '<a href=\"recent.cgi?code=$_&hours=$hours\">$label</a>',
+		data: [$samples],
+	},";
 }
 
 print <<EOF ;
@@ -77,8 +80,8 @@ print <<EOF ;
 		</blockquote>
 		<div id="plot" style="width:95%;height:85%;"></div>
 		<script id="source" language="javascript" type="text/javascript">
-			var data = [$data];
 			var smooth = $smooth;
+			var data = [$data];
 		</script>
 	</body>
 </html>
