@@ -38,9 +38,9 @@ print <<EOF ;
 		<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 		<meta name="viewport" content="width=640;" />
 		<link href="layout.css" rel="stylesheet" type="text/css"></link>
-		<!--[if IE]><script language="javascript" type="text/javascript" src="/js/flot/excanvas.pack.js"></script><![endif]-->
-		<script language="javascript" type="text/javascript" src="/js/flot/jquery.js"></script>
-		<script language="javascript" type="text/javascript" src="/js/flot/jquery.flot.js"></script>
+		<!--[if IE]><script language="javascript" type="text/javascript" src="js/excanvas.pack.js"></script><![endif]-->
+		<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+		<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
 	</head>
 
 	<body style="margin:40px;">
