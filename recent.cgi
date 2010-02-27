@@ -14,7 +14,12 @@ my $decimate = ($tail < 1200) ? 1 : int($tail/750);
 my $data;
 
 if ($code) {
-	transform($code);
+	if (-d $code) {
+		transform($code);
+	} else {
+		my @grep = `grep -l $code */tags.txt`;
+		for (@grep) {transform($1) if /(\w+)/;}
+	}
 } else {
 	for (<*>) {transform($_)}
 }
