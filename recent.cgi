@@ -25,13 +25,18 @@ sub transform {
 	$label =~ s/\n//g;
 	my $yaxis = /^(a|b)/ ? 2 : 1;
 	my @samples = `tail -$tail '$_/history.txt'`;
-	my ($samples, $count, $sum) = ('', 0, 0);
+	my ($samples, $last, $count, $sum) = ('', '', 0, 0);
 	for (@samples) {
 		next unless /(\d+)\t([\d.]+)/;
 		next unless $1 >= $first;
 		$sum += $2;
 		next if (++$count) % $decimate;
 		my $avg = $sum/$decimate;
+		if ($last && ($1-$last)>(300*$decimate+3300)) {
+			my $missing = int(($1+$last)/2);
+			$samples .= "[${missing}000,null], ";
+		}
+		$last = $1;
 		$samples .= "[${1}000,$avg], ";
 		$sum = 0;
 	}
