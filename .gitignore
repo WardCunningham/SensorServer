@@ -1,0 +1,4 @@
+results/
+SensorServer/applet/
+.DS_Store
+calibration.txt
