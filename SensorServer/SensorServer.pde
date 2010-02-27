@@ -12,13 +12,15 @@ Server server(80);
 Client client(255);
 OneWire ds(8);  // data pin
 
-int analog[6];
-int bynase[6];
-
 struct Temp {
   unsigned int code;
   int data;
 } temp[32] = {{0,0}};
+
+struct Pin {
+  boolean present;
+  int data;
+} analog[6] = {{0,0}}, bynase[6] = {{0,0}};
 
 unsigned int last = 100;
 unsigned long requests = 0;
@@ -74,12 +76,16 @@ void jsonReport() {
   client.print("HTTP/1.1 200 OK\nContent-Type: text/plain\n\n");
   client.println("{");
   for (int i = 0; i < num(analog); i++) {
-    ikey('a',i);
-    val(analog[i]);
+    if (analog[i].present) {
+      ikey('a',i);
+      val(analog[i].data);
+    }
   }
   for (int i=2; i<num(bynase); i++) {
-    ikey('b',i);
-    val(bynase[i]);
+    if (bynase[i].present) {
+      ikey('b',i);
+      val(bynase[i].data);
+    }
   }
   for (int ch=0; ch<num(temp); ch++) {
     if (temp[ch].code) {
@@ -128,7 +134,8 @@ void report(char code) {
 
 void analogSample() {
   for (int i = 0; i < num(analog); i++) {
-    analog[i] = analogRead(i);
+    analog[i].data = analogRead(i);
+    analog[i].present |= (analog[i].data != 0);
   }
 }
 
@@ -136,18 +143,19 @@ void analogReport() {
   client.print("analog");
   for (int i = 0; i < num(analog); i++) {
     client.print("\t");
-    client.print(analog[i]);
+    client.print(analog[i].data);
   }
   client.print("\n");
 }
 
 void bynaseSample() {
   for (int i=0; i<num(bynase); i++) {
-    bynase[i] = 0;
+    bynase[i].data = 0;
   }
   for (int t=0; t<1023; t++) {
     for (int i=0; i<num(bynase); i++) {
-      bynase[i] += digitalRead(i);
+      bynase[i].data += digitalRead(i);
+      bynase[i].present |= (bynase[i].data != 0);
     }
     delayMicroseconds(60);
   }
@@ -157,7 +165,7 @@ void bynaseReport() {
   client.print("bynase");
   for (int i=0; i<num(bynase); i++) {
     client.print("\t");
-    client.print(bynase[i]);
+    client.print(bynase[i].data);
   }
   client.print("\n");
 }

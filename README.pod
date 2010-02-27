@@ -3,6 +3,8 @@
 The server is organized as a web site, SensorServer, with the Arduino code in an
 identially named subdirectory of this site. On a mac, this can be downloaded as follows:
 
+=over 4
+
 =item * Open the Terminal program
 
 =item * cd Sites
@@ -11,11 +13,17 @@ identially named subdirectory of this site. On a mac, this can be downloaded as 
 
 =item * Enable Web Sharing in the Control Panel
 
+=back
+
 Test that this site is accessible by fetching some pages from your brower:
+
+=over 4
 
 =item * http://localhost/~I<your-login>/ -- should include SensorServer
 
 =item * http://localhost/~I<your-login>/SensorServer/about.html
+
+=back
 
 =head1 Installing the Arduino
 
@@ -23,6 +31,8 @@ The SensorServer runs on a USB arduino with the Ethernet shield.
 
 You will want to use the Arduino development environment to
 program the device.
+
+=over 4
 
 =item * Install Arduino IDE from www.arduino.cc
 
@@ -36,11 +46,17 @@ program the device.
 
 =item * Download the compiled program into your Arduino
 
+=back
+
 Test your work so far by fetching the tsv and json pages:
+
+=over 4
 
 =item * http://10.0.0.201/g -- all data in tab-separated fields
 
 =item * http://10.0.0.201/j -- all data and some stats in json hash
+
+=back
 
 If you are behind a firewall, open a port to your arduino.
 Test that you can access the json page through your router.
@@ -49,24 +65,36 @@ Test that you can access the json page through your router.
 
 You will want to run the sampling script on an always-on server.
 
+=over 4
+
 =item * Edit the sample.pl script to fetch from your Arduino
 
 =item * Create a C<results> directory in the same directory as the script
 
+=back
+
 Test the sample.pl script by running it from the command line.
 It will create subdirectories in results for devices discovered by your Arduino.
 
+=over 4
+
 =item * Edit your crontab (crontab -e) to run your script every 5 minutes.
+
+=back
 
 =head1 Embellishing the Website
 
 For each device in the results directory add the following files:
+
+=over 4
 
 =item * name.txt -- One word name for the sensor.
 
 =item * info.html -- Paragraph describing the location and purpose of the sensor.
 
 =item * location.jpg -- Photograph of the sensor in its current location.
+
+=back
 
 The script, C<mkthumb.sh>, will make low resolution thumbnails of location pictures.
 Run it whenever adding new images.
