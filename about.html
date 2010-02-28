@@ -34,15 +34,7 @@
       	"a2010":	980,
       	"a2011":	936,
       	"a2012":	52,
-      	"a2013":	0,
-      	"a2014":	0,
-      	"a2015":	0,
-      	"b2012":	0,
-      	"b2013":	0,
-      	"b2014":	0,
-      	"b2015":	0,
-      	"b2016":	0,
-      	"b2017":	0,
+      	"b2012":	22,
       	"c19808":	283,
       	"c19356":	618,
       	"c12234":	306,
@@ -53,7 +45,6 @@
       	"r0":	361,
       	"r1":	834,
       }
-
     </pre>
 
     <p>The various signals are given codes, a, b, c, for analog, bynase and 1-wire respectively. The numeric part of the code is a combination of the server's ip address and the input pin number for analog and bynase. For 1-wire the code is extracted from an id unique to each 1-wire device.</p>
@@ -65,6 +56,7 @@
       <li>r1 - the number of crc errors talking to 1-wire devices.</li>
     </ul>
     <p>The server processes internet requests one at a time, queuing simultainous requests to be processed at the earliest opportunity.</p>
+    <p>Uptime <a href=http://www.pingdom.com/reports/d3lcfut78x0a/check_overview/?name=SensorServer>statistics</a> are available via Pingdom.</p>
     <p>The project <a href="http://github.com/WardCunningham/SensorServer">source</a> is available on GitHub under the GPL v2 license.</p>
     <p>Various sensors are discussed along with lots of other do-it-yourself microprocessor projects on the
     <a href="http://c2.com/cybords/wiki.cgi?SensorServer">cybords</a> site.</p>
