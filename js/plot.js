@@ -56,7 +56,7 @@ $(function () {
 					item.pageY,
 					item.series.label +
 						"<br><font size=+2>" +
-						item.datapoint[1].toFixed(1) + "&deg;</font> F" + delta +
+						item.datapoint[1].toFixed(1) + item.series.scale +"</font> " + item.series.unit + delta +
 						"<br><font size=+2>" +
 						h + ":" + (d.getMinutes() < 10 ? "0" : "") + d.getMinutes() +
 						"</font> " + am + ", " +

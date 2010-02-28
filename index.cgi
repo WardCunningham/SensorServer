@@ -18,6 +18,7 @@ if ($code) {
 
 sub report {
 	local($_) = $_[0];
+	my ($scale, $unit) = -e "$_/unit.txt" ? split(/\t|\n/, `cat $_/unit.txt`) : ('&deg;', 'F');
 	my $info = `cat $_/info.html` if -e "$_/info.html";
 	my $name = `cat $_/name.txt` if -e "$_/name.txt";
 	my @tags = `cat $_/tags.txt` if -e "$_/tags.txt";
@@ -31,7 +32,7 @@ sub report {
 		<tr><td>
 		<tr bgcolor=#eeeeee>
 		<td align=center>&nbsp;
-			<a href="recent.cgi?code=$_"><font size=24>$temp&deg;</font></a>
+			<a href="recent.cgi?code=$_"><font size=24>$temp$scale</font></a>
 			$name
 			<br><font color=gray>$_ $age</font>
 		<td><a href="results/$_/location.jpg"><img src="results/$_/thumb.jpg"></a>
