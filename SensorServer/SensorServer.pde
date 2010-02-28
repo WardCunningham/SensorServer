@@ -7,6 +7,8 @@
 
 byte mac[] = { 0xEE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED   };
 byte ip[] = { 10, 0, 3, 201   };
+char query[64];
+
 
 Server server(80);
 Client client(255);
@@ -73,7 +75,19 @@ void uval(unsigned long number) {
 }
 
 void jsonReport() {
-  client.print("HTTP/1.1 200 OK\nContent-Type: text/plain\n\n");
+  content("plain");
+  emitJson();
+}
+
+void jsonpReport() {
+  content("plain");
+  client.print(query);
+  client.print("(");
+  emitJson();
+  client.print(")\n");
+}
+
+void emitJson() {
   client.println("{");
   for (int i = 0; i < num(analog); i++) {
     if (analog[i].present) {
@@ -108,9 +122,15 @@ void script(char* script) {
   client.println("></script>");
 }
 
+void content(char* type) {
+  client.print("HTTP/1.1 200 OK\nContent-Type: text/");
+  client.print(type);
+  client.print("\n\n");
+}
+
 void flotReport () {
-    client.println("HTTP/1.1 200 OK\nContent-Type: text/html\n\n<html><head>");
-    client.println("<meta name=viewport content=\"width=420;\" />");
+    content("html");
+    client.println("<html><head><meta name=viewport content=\"width=420;\" />");
     script("jquery.js");
     script("jquery.timers.js");
     script("jquery.flot.js");
@@ -124,6 +144,7 @@ void flotReport () {
 
 void report(char code) {
   if (code == 'j') jsonReport();
+  if (code == 'p') jsonpReport();
   if (code == ' ') flotReport();
 }
 
@@ -211,12 +232,16 @@ void serve() {
     requests++;
     boolean blank = true;
     boolean slash = false;
+    boolean amp = false;
+    boolean equal = false;
     char code = 0;
+    int i = 0;
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
         // Serial.print(c);
         if (c == '\n' && blank) {
+          query[i++ & num(query)-1] = 0;
           report(code);
           break;
         }
@@ -225,10 +250,21 @@ void serve() {
         }
         else if (c != '\r') {
           blank = false;
-          if (slash && code == 0) {
-            code = c;
+          if (slash) {
+            if (code == 0) {
+              code = c;
+            } else {
+              if (equal) {
+                if (amp || c == '&') {
+                  amp = true;
+                } else {
+                  query[i++ & num(query)-1] = c;
+                }
+              }
+            }
           }
-          slash = c == '/';
+          slash |= c == '/';
+          equal |= c == '=';
         }
       }
     }
