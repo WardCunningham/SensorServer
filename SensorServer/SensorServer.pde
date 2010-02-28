@@ -101,6 +101,7 @@ void jsonReport() {
 
   client.println("}");
 }
+
 void script(char* script) {
   client.print("<script src=http://c2.com/ward/arduino/SensorServer/js/");
   client.print(script);
@@ -122,12 +123,6 @@ void flotReport () {
 }
 
 void report(char code) {
-  if (code>>3 == 'a'>>3) { // deprecated
-    client.println("HTTP/1.1 200 OK\nContent-Type: text/plain\n\n");
-    if (code & 1) analogReport();
-    if (code & 2) bynaseReport();
-    if (code & 4) tempReport();
-  }
   if (code == 'j') jsonReport();
   if (code == ' ') flotReport();
 }
@@ -137,15 +132,6 @@ void analogSample() {
     analog[i].data = analogRead(i);
     analog[i].present |= (analog[i].data != 0);
   }
-}
-
-void analogReport() {
-  client.print("analog");
-  for (int i = 0; i < num(analog); i++) {
-    client.print("\t");
-    client.print(analog[i].data);
-  }
-  client.print("\n");
 }
 
 void bynaseSample() {
@@ -159,15 +145,6 @@ void bynaseSample() {
     }
     delayMicroseconds(60);
   }
-}
-
-void bynaseReport() {
-  client.print("bynase");
-  for (int i=0; i<num(bynase); i++) {
-    client.print("\t");
-    client.print(bynase[i].data);
-  }
-  client.print("\n");
 }
 
 byte data[12];
@@ -217,19 +194,6 @@ boolean crc_err(byte size) {
   } else {
     return false;
   }
-}
-
-void tempReport() {
-  client.print("18b20");
-  for (int ch=0; ch<num(temp); ch++) {
-    if (temp[ch].code) {
-      client.print("\t");
-      client.print(temp[ch].code);
-      client.print(" ");
-      client.print(temp[ch].data);
-    }
-  }
-  client.print("\n");
 }
 
 int channel(int id) {
