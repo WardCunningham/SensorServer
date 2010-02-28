@@ -32,5 +32,6 @@ sub create {
 		echo '\$_ * 1 + 0' > cal.pl
 		echo '$dir' > name.txt
 		date > info.html
+		echo 'unused' > tags.txt
 	`
 }
