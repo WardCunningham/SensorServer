@@ -80,7 +80,7 @@ void jsonReport() {
 }
 
 void jsonpReport() {
-  content("plain");
+  content("javascript");
   client.print(query);
   client.print("(");
   emitJson();
