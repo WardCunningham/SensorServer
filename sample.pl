@@ -6,12 +6,22 @@
 use strict;
 
 my $time = time;
-my @lines = `curl -s 'http://98.232.243.25:8082/j'`;
+my @lines = `curl -s 'http://98.232.243.25:8082/j' | tee json.txt`;
 my $results = 'results';
 
 for (@lines) {
 	next unless /"([a-c]\d+)":\s*(\d+),/;
 	record($1, $2);
+}
+crc($1,$2) if join('',@lines) =~ /"t0":\t(\d+).*"r1":\t(\d+)/s;
+
+sub crc {
+	my ($nt, $ne) = @_;
+	my ($ot, $oe) = `cat crc_errors.txt` =~ /(\d+)/g;
+	if ($ot && ($ot < $nt)) {
+		record('r000', ($ne-$oe)*5.0*60000/($nt-$ot));
+	}
+	`(echo $nt $ne)>crc_errors.txt`;
 }
 
 sub record {
