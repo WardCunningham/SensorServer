@@ -10,8 +10,12 @@ my %tags;
 chdir "results";
 
 if ($code) {
-	my @grep = `grep -l $code */tags.txt`;
-	for (@grep) {report($1) if /(\w+)/;}
+	if (-d $code) {
+		report($code);
+	} else {
+		my @grep = `grep -l $code */tags.txt`;
+		for (@grep) {report($1) if /(\w+)/;}
+	}
 } else {
 	for (<*>) {report($_);}
 }
