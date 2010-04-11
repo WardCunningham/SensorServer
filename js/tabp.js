@@ -13,6 +13,7 @@ $(document).ready(function(){
 	});
 	
 	$('#activity').everyTime(100, function(i) {
-		$('#activity').html($('#activity').html().substr(1).concat(i%10?".":","));
+		var sync = (new Date()).getMilliseconds()<100;
+		$('#activity').html($('#activity').html().substr(1).concat(sync?",":"."));
 	});
 });
