@@ -3,7 +3,7 @@ $(document).ready(function(){
 		$('#activity').html($('#activity').html().replace(/.$/, ch));
 	}
 
-	$(document).everyTime(2000, function(i) {
+	$(document).everyTime(1000, function(i) {
 		tick('(');
 		$.getJSON("http://98.232.243.25:8082/p?callback=?", function(data){
 			tick(')');
