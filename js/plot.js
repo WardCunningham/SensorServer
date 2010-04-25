@@ -61,7 +61,7 @@ $(function () {
 						h + ":" + (d.getMinutes() < 10 ? "0" : "") + d.getMinutes() +
 						"</font> " + am + ", " +
 						d.getDate() + " " + m + " " + d.getFullYear() + "<br>" +
-						"<a href=results/" + item.series.id + "/location.jpg><img src=results/" + item.series.id + "/thumb.jpg width=160></a>" +
+						"<a href=results/" + item.series.id + "/location.jpg><img src=results/" + item.series.id + "/thumb.cgi?"+item.datapoint[0]+" width=160></a>" +
 						"<br><font color=gray size=-2>" + item.datapoint[0]/1000 + 
 						"</font>"
 				);

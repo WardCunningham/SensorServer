@@ -29,7 +29,7 @@ sub transform {
 	my $label = `cat $_/name.txt` || $_;
 	$label =~ s/\n//g;
 	my ($scale, $unit) = -e "$_/unit.txt" ? split(/\t|\n/, `cat $_/unit.txt`) : ('&deg;', 'F');
-	my $yaxis = /^(a|b)/ ? 2 : 1;
+	my $yaxis = /^(a|b|r)/ ? 2 : 1;
 	my @samples = `tail -$tail '$_/history.txt'`;
 	my ($samples, $last, $count, $sum) = ('', '', 0, 0);
 	for (@samples) {

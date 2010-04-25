@@ -14,6 +14,7 @@ for (@lines) {
 	record($1, $2);
 }
 crc($1,$2) if join('',@lines) =~ /"t0":\t(\d+).*"r1":\t(\d+)/s;
+`perl admin/mkradar.pl`;
 
 sub crc {
 	my ($nt, $ne) = @_;
