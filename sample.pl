@@ -5,15 +5,19 @@
 
 use strict;
 my $time = time;
-my @lines = `(curl -s 'http://98.232.243.25:8082/j'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss/onewire') | tee json.txt`;
+my $json = `(curl -s 'http://98.232.243.25:8082/j'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss/onewire') | tee json.txt`;
+my @json = $json =~ /\"(.*?)\"\s*:\s*([\d\.]+)/g;
+my %json = @json;
 my $results = 'results';
 
-for (@lines) {
-	next unless /"([a-cm1-9]\w+)":\s*([0-9\.]+)\b/;
-	record($1, $2);
+for (sort keys %json) {
+	next if /^[tr]/;
+	print stderr "$_\t$json{$_}\n";
+	record($_, $json{$_});
 }
-crc($1,$2) if join('',@lines) =~ /"t0":\t(\d+).*"r1":\t(\d+)/s;
-`perl admin/mkradar.pl`;
+
+#crc($1,$2) if join('',@lines) =~ /"t0":\t(\d+).*"r1":\t(\d+)/s;
+#`perl admin/mkradar.pl`;
 
 sub crc {
 	my ($nt, $ne) = @_;
