@@ -5,11 +5,11 @@
 
 use strict;
 my $time = time;
-my @lines = `(curl -s 'http://98.232.243.25:8082/j'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss') | tee json.txt`;
+my @lines = `(curl -s 'http://98.232.243.25:8082/j'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss/onewire') | tee json.txt`;
 my $results = 'results';
 
 for (@lines) {
-	next unless /"([a-cm]\w+)":\s*([0-9\.]+)\b/;
+	next unless /"([a-cm1-9]\w+)":\s*([0-9\.]+)\b/;
 	record($1, $2);
 }
 crc($1,$2) if join('',@lines) =~ /"t0":\t(\d+).*"r1":\t(\d+)/s;
