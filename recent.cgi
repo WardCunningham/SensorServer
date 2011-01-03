@@ -71,23 +71,21 @@ print <<EOF ;
 
 	<body style="margin:40px;">
 		<blockquote>
-			<a href="about.html">about</a>
-			&nbsp; &nbsp; &nbsp; &nbsp;
 			<a href="recent.cgi?code=$code&hours=6&smooth=0.5">6</a> |
 			<a href="recent.cgi?code=$code&hours=12&smooth=0.6">12</a> hours
-			&nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp;
 			<a href="recent.cgi?code=$code&hours=24&smooth=0.7">1</a> |
 			<a href="recent.cgi?code=$code&hours=48&smooth=0.8">2</a> |
 			<a href="recent.cgi?code=$code&hours=96&smooth=0.9">4</a> days
-			&nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp;
 			<a href="recent.cgi?code=$code&hours=188&smooth=0.0">1</a> |
 			<a href="recent.cgi?code=$code&hours=375&smooth=0.0">2</a> weeks
-			&nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp;
 			<a href="recent.cgi?code=$code&hours=750&smooth=0.0">1</a> |
 			<a href="recent.cgi?code=$code&hours=1500&smooth=0.0">2</a> |
 			<a href="recent.cgi?code=$code&hours=2250&smooth=0.0">3</a> |
 			<a href="recent.cgi?code=$code&hours=4500&smooth=0.0">6</a> months
-			&nbsp; &nbsp; &nbsp; &nbsp;
+			&nbsp;
 			<a href="recent.cgi?code=$code&hours=9000&smooth=0.0">1</a> |
 			<a href="recent.cgi?code=$code&hours=18000&smooth=0.0">2</a> years
 		</blockquote>
