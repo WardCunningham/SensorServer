@@ -3,7 +3,7 @@ use strict;
 print "Content-type: text/html\n\n";
 chdir "results";
 
-my ($hours, $smooth, $code) = ('24', '.7', '');
+my ($hours, $smooth, $code) = ('72', '.7', '');
 $hours = $1 if $ENV{'QUERY_STRING'} =~ /\bhours=(\d+)\b/;
 $smooth = $1 if $ENV{'QUERY_STRING'} =~ /\bsmooth=(0\.\d+)\b/;
 my $code = $1 if $ENV{'QUERY_STRING'} =~ /\bcode=(\w+)\b/;
