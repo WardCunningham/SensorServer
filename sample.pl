@@ -5,7 +5,7 @@
 
 use strict;
 my $time = time;
-my $json = `(curl -s 'http://98.232.243.25:8082/j'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss'; curl -s --user 'guest:please' 'http://98.232.243.25:4567/ss/onewire') | tee json.txt`;
+my $json = `(curl -s 'http://home.c2.com:8082/j'; curl -s --user 'guest:please' 'http://home.c2.com:4567/ss'; curl -s --user 'guest:please' 'http://home.c2.com:4567/ss/onewire') | tee json.txt`;
 my @json = $json =~ /\"(.*?)\"\s*:\s*([-\d\.]+)/g;
 my %json = @json;
 my $results = 'results';
