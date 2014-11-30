@@ -9,7 +9,7 @@ $smooth = $1 if $ENV{'QUERY_STRING'} =~ /\bsmooth=(0\.\d+)\b/;
 $slope = $1 if $ENV{'QUERY_STRING'} =~ /\bslope=(\w+)\b/;
 my $first = time - $hours*60*60;
 
-my $tail = $hours * 12;
+my $tail = $hours * (60/5);
 my @samples = `tail -$tail 'history.txt'`;
 my %samples;
 for (@samples) {
@@ -30,7 +30,7 @@ for (sort {$a <=> $b} keys %samples) {
 	my $color = $_ < 600 ? 4 : 5;
 	$data .= "{ id: '$_', color: $color, label: '$_', data: [";
 	$data .= $samples{$_};
-	$data .= "] }, ";
+	$data .= "] },\n\n";
 }
 
 print <<EOF ;
@@ -44,7 +44,7 @@ print <<EOF ;
 	</head>
 
 	<body style="margin:40px;">
-		<h1>Arduino/Linux Interface to Daylight Sensor via Ethernet Shield</h1>
+		<h1>Daylight Isolumes (arrival of twilight, day by day)</h1>
 		<blockquote>
 			<a href="about.html">about</a>
 			&nbsp; &nbsp; &nbsp; &nbsp;
