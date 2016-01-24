@@ -71,9 +71,6 @@ print <<EOF ;
 
 	<body style="margin:40px;">
 		<blockquote>
-			<a href="recent.cgi?code=$code&hours=6&smooth=0.5">6</a> |
-			<a href="recent.cgi?code=$code&hours=12&smooth=0.6">12</a> hours
-			&nbsp;
 			<a href="recent.cgi?code=$code&hours=24&smooth=0.7">1</a> |
 			<a href="recent.cgi?code=$code&hours=48&smooth=0.8">2</a> |
 			<a href="recent.cgi?code=$code&hours=96&smooth=0.9">4</a> days
