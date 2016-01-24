@@ -1,0 +1,43 @@
+
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style> div.plot {width:1200px;height:400px;} </style>
+
+<center>
+	<div id="daylight_hours" class="plot"></div>
+	<div id="change_minutes" class="plot"></div>
+
+<script>
+
+	function parse (line) {
+		var fields = line.split(/\t/)
+		var t = +fields[0]
+		var v = +fields[1]
+		if (v > 24) {v = null}
+		return [t, v]
+	}
+
+	function change (d,i,a) {
+		if (!(i>14&&d[1]&& a[i-14][1])) return null
+		var avg = (d[1] - a[i-14][1]) * 60/14
+		if (avg > 5 || avg < -5) return null
+		return avg
+	}
+
+	function display (text) {
+		var lines = text.trim().split(/\n/)
+		var data = lines.map(parse)
+		function x() {return data.map(function (d) {return new Date(d[0]*1000)})}
+		function plot(e,f) { Plotly.plot( e, [{ x:x(), y:data.map(f) }], {title: e.id.replace('_',' ') } )}
+
+		plot(daylight_hours, function (d) {return d[1]})
+		plot(change_minutes, change)
+	}
+
+	Plotly.d3.text('http://c2.com/~ward/arduino/SensorServer/daylight.cgi', display)
+
+</script>
+
+<footer>
+	Measured Daylight Hours and<br>14-Day Average Change<br>
+	<a href="http://ward.bay.wiki.org/measured-daylight-hours.html">wiki</a>
