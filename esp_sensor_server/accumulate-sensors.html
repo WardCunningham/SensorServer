@@ -1,0 +1,64 @@
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h3>Accumulated Sensor Data</h3>
+  <pre id="result">working</pre>
+  <div id="graph" style="width:100%;height:90%;"></div>
+
+  <script>
+
+  function home(port) {
+    return fetch('http://home.c2.com:'+port)
+      .then(response => response.json())
+  }
+
+  function sample() {
+    Promise.all([home(8020),home(8021),home(8022)])
+      .then(json => {
+        result.innerHTML = JSON.stringify(json,null,2)
+        plot(Object.assign(...json))
+      })
+  }
+
+    let f = {}
+    function fahrenheit(key,sample) {
+    const cal = {
+      "28DE9AF6":1,
+      "28CF99F6":2,
+
+      "28FF081D":-4,
+      "28FFEC6F":4,
+
+      "28FFC86F":-1,
+      "28FFC86F":1
+    }
+    let calibrated = (sample + (cal[key]||0)) / 16.0
+    // time constant = 9x samples or about a minute, 99% within 5 minutes
+    centigrade = f[key] = f[key] ? .9*f[key]+.1*calibrated : calibrated
+    return centigrade * 9 / 5 + 32
+  }
+
+  var start = true
+  function plot (data) {
+    var keys = Object.keys(data)
+    for (var k in data) {
+      data[k] = fahrenheit(k,data[k])
+    }
+    if (start) {
+      start = false
+      var traces = keys.map((k)=>({x:[new Date()],y:[data[k]],name:k}))
+      Plotly.plot('graph', traces)
+    } else {
+      var more = keys.map((k)=>[data[k]])
+      var when = keys.map(()=>[new Date()])
+      var iota = keys.map((_,k)=>k)
+      Plotly.extendTraces('graph', {x: when, y: more}, iota)
+    }
+  }
+
+  sample()
+  setInterval(sample, 5000);
+
+  </script>
+</body>

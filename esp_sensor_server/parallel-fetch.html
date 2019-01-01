@@ -1,0 +1,27 @@
+<h3>Parallel Fetch</h3>
+<pre id="result">working</pre>
+
+<script>
+
+function timeout(duration) {
+  // https://stackoverflow.com/a/49857905
+  return new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`timeout after ${duration} msec`)), duration))
+}
+
+function home(port) {
+  return Promise.race([
+  	  fetch('http://home.c2.com:'+port),
+      timeout(2000)
+  	])
+    .then(response => response.json())
+    .catch(error => console.log(error)||{})
+}
+
+Promise.all([home(8020),home(8021),home(8022)])
+  .then(json => 
+    result.innerHTML = 
+      JSON.stringify(json,null,2))
+
+ </script>
+
