@@ -27,9 +27,8 @@
       })
   }
 
-  function fahrenheit(data) {
-    let vec = Object.values(data)
-    let avg = vec.reduce((t, n) => t+n) / vec.length / 16
+  function fahrenheit(readings) {
+    let avg = readings.reduce((t, n) => t+n) / readings.length / 16
     return (9/5) * avg + 32
   }
 
@@ -43,9 +42,12 @@
         let result = results[j]
         let name = result.name
         if (name) {
-          trace = traces[name] = traces[name] || {x:[],y:[],name:name}
-          trace.x.push(date)
-          trace.y.push(fahrenheit(result.data))
+          let readings = Object.values(result.data)
+          if (readings.length>0) {
+            trace = traces[name] = traces[name] || {x:[],y:[],name:name}
+            trace.x.push(date)
+            trace.y.push(fahrenheit(readings))
+          }
         }
       }
     }
