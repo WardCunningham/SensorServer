@@ -8,8 +8,21 @@
 
   <script>
 
+  function hashed(hash, assign) {
+    op=assign.split(/=/)
+    if (op[1]) hash[op[0]]=op[1]
+    return hash
+  }
+
+  let query = window.location.href.split(/\?/)[1]||''
+  let args = query.split(/&/)
+  let params = args.reduce(hashed,{})
+  let slug = params.slug || 'testing-datalog'
+  let chunk = params.chunk || 'hour'
+  let keep = params.keep || 24
+
   function offset(n) {
-    return fetch('/plugin/datalog/_/offset/'+n)
+    return fetch(`/plugin/datalog/${slug}/${chunk}/${n}`)
       .then(response => response.ok ? response.text() : '')
       .then(text => text.split(/\r?\n/).filter(line => line.length > 0).map(line => JSON.parse(line)))
       .catch(error => console.log(error)||[])
@@ -17,7 +30,7 @@
 
   function sample() {
     let pages = []
-    for (let n = 24; n >= 0; n--) {
+    for (let n = keep*1; n >= 0; n--) {
       pages.push(offset(n))
     }
     Promise.all(pages)
