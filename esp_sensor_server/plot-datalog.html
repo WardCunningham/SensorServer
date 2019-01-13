@@ -30,7 +30,7 @@
 
   function sample() {
     let pages = []
-    for (let n = keep*1; n >= 0; n--) {
+    for (let n = keep*1-1; n >= 0; n--) {
       pages.push(offset(n))
     }
     Promise.all(pages)
