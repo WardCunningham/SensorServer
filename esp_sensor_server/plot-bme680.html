@@ -1,0 +1,85 @@
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h3>Plot Recent Data from Datalog</h3>
+  <!-- <pre id="result">working</pre> -->
+  <div id="graph" style="width:100%;height:90%;"></div>
+
+  <script>
+
+  function hashed(hash, assign) {
+    op=assign.split(/=/)
+    if (op[1]) hash[op[0]]=op[1]
+    return hash
+  }
+
+  let href = window.location.href.split(/\?/)
+  let dir = href[0].split('/').reverse()[1]
+  let query = href[1]||''
+  let args = query.split(/&/)
+  let params = args.reduce(hashed,{})
+  let protocol = params.protocol || location.protocol
+  let site = params.site || location.host
+  let slug = params.slug || dir
+  let chunk = params.chunk || 'hour'
+  let keep = params.keep || 24
+
+  console.log({params})
+
+  function offset(n) {
+    return fetch(`${protocol}//${site}/plugin/datalog/${slug}/${chunk}/${n}`)
+      .then(response => response.ok ? response.text() : '')
+      .then(text => text.split(/\r?\n/).filter(line => line.length > 0).map(line => JSON.parse(line)))
+      .catch(error => console.log(error)||[])
+  }
+
+  function sample() {
+    let pages = []
+    for (let n = keep*1-1; n >= 0; n--) {
+      pages.push(offset(n))
+    }
+    Promise.all(pages)
+      .then(json => {
+        // result.innerHTML = JSON.stringify(json.flat(),null,2)
+        plot(json.flat())
+      })
+  }
+
+  let channels = {
+    bem_temp: {prop: 'temp', unit:"°F", scale: n => (n/100)*(9/5)+32},
+    bem_pressure: {prop: 'press', unit:"kPa", scale: n => n/1000},
+    bem_humidity: {prop: 'humid', unit:"%", scale: n => n},
+    bem_gas: {prop: 'gas', unit:"KΩ", scale: n => n/1000},
+    bem_alt: {prop: 'alt', unit:"ft", scale: n => 3.28084*n}
+  }
+
+  function plot (logs) {
+    let traces = {}
+    for (var i=0; i<logs.length; i++) {
+      let log = logs[i]
+      let date = new Date(log.clock)
+      let results = log.result
+      for (var j=0; j<results.length; j++) {
+        let result = results[j]
+        console.log({date,result})
+        let name = result.name
+        if (name) {
+          for (var key in result.data) {
+            let channel = channels[key]
+            let label = `${name} ${channel.prop} ${channel.unit}`
+            trace = traces[label] = traces[label] || {x:[],y:[],name:label}
+            trace.x.push(date)
+            trace.y.push(channel.scale(result.data[key]))
+          }
+        }
+      }
+    }
+    console.log({traces: Object.values(traces)})
+    Plotly.plot('graph', Object.values(traces))
+  }
+
+  sample()
+
+  </script>
+</body>
