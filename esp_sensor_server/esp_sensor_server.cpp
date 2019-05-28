@@ -15,7 +15,7 @@ OneWire  ds(5);  // on pin 5 with 4.7k pullup
 
 // Replace with your network details
 const char* ssid = "Cunningham IOT";
-const char* password = "6896iot6896iot";
+const char* password = "password";
 WiFiServer server(80);
 WiFiClient client;
 
