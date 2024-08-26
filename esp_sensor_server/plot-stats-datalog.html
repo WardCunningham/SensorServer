@@ -40,11 +40,6 @@
       })
   }
 
-  function fahrenheit(readings) {
-    let avg = readings.reduce((t, n) => t+n) / readings.length / 16
-    return (9/5) * avg + 32
-  }
-
   function plot (logs) {
     let traces = {}
     for (var i=0; i<logs.length; i++) {
@@ -55,11 +50,16 @@
         let result = results[j]
         let name = result.name
         if (name) {
-          let readings = Object.values(result.data)
+          let readings = Object.keys(result.data)
           if (readings.length>0) {
-            trace = traces[name] = traces[name] || {x:[],y:[],name:name}
-            trace.x.push(date)
-            trace.y.push(fahrenheit(readings))
+            for (var k=0; k<readings.length; k++) {
+              let legend = readings[k]
+              let value = result.data[legend]
+              let fullname = `${name}-${legend}`
+              trace = traces[fullname] = traces[fullname] || {x:[],y:[],name:fullname}
+              trace.x.push(date)
+              trace.y.push(value)              
+            }
           }
         }
       }
