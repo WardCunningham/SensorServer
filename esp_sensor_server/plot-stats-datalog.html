@@ -46,6 +46,7 @@
       let log = logs[i]
       let date = new Date(log.clock)
       let results = log.result
+      console.log({date,results})
       for (var j=0; j<results.length; j++) {
         let result = results[j]
         let name = result.name
@@ -54,6 +55,8 @@
           if (readings.length>0) {
             for (var k=0; k<readings.length; k++) {
               let legend = readings[k]
+              if(legend=='start') continue
+              if(legend=='run') continue
               let value = result.data[legend]
               let fullname = `${name}-${legend}`
               trace = traces[fullname] = traces[fullname] || {x:[],y:[],name:fullname}
